@@ -130,3 +130,14 @@ if uploaded_file is not None:
             for _, r in model_reviews.iterrows():
                 st.markdown(f"**⭐ {int(r['stars'])}** — {r['full_text'].strip()}")
                 st.markdown("---")
+
+    # Выбор конкретной модели
+    st.subheader("🔍 Анализ отзывов по выбранной модели")
+    unique_models = df["model"].dropna().unique()
+    selected_model = st.selectbox("Выберите модель товара", sorted(unique_models))
+
+    if selected_model:
+        df_filtered = df[df["model"] == selected_model]
+        st.markdown(f"Найдено {len(df_filtered)} отзывов для **{selected_model}**")
+
+        st.write(df_filtered[["stars", "text", "pros_text", "cons_text"]])
